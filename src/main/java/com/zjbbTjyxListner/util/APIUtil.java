@@ -58,9 +58,27 @@ public class APIUtil {
 		JSONObject resultJO = new JSONObject(result);
 		return resultJO;
 	}
+	
+	/**
+	 * 同步触发器变量
+	 * @return
+	 */
+	public static JSONObject syncTriggerVar() {
+		// TODO Auto-generated method stub
+		JSONObject resultJO = null;
+		try {
+	        resultJO = doHttp("syncTriggerVar",null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			return resultJO;
+		}
+	}
 
 	/**
-	 * 巡回工单状态
+	 * 巡回触发器变量状态
 	 * @return
 	 */
 	public static JSONObject keepWatchOnTriggerVar() {

@@ -35,6 +35,7 @@ public class KeepWatchTask extends Thread {
 					break;
 				checked=false;
 				Thread.sleep(3000);
+				APIUtil.syncTriggerVar();
 				APIUtil.keepWatchOnTriggerVar();
 				System.out.println("Ñ²»Ø±äÁ¿×´Ì¬........");
 			}
