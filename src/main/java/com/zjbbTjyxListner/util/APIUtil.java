@@ -10,8 +10,7 @@ import java.util.Map.Entry;
 
 public class APIUtil {
 
-	public static final String SERVICE_URL="http://localhost:8080/UWinOPCTjyx/opc/";
-	//public static final String SERVICE_URL="http://192.168.1.108:8080/BatchMesComDK/batch/";
+	public static final String SERVICE_URL="http://localhost:8080/ZjbbTjyx/opc/";
 
 	//https://www.cnblogs.com/aeolian/p/7746158.html
 	//https://www.cnblogs.com/bobc/p/8809761.html
