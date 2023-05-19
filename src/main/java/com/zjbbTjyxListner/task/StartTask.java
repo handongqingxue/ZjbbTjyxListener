@@ -11,22 +11,33 @@ import java.util.Map;
 public class StartTask {
 	
 	static KeepWatchTask keepWatchTask;
+	static SyncTriggerTask syncTriggerTask;
 //	static SendMesBRTask sendMesBRTask;
 	static ListenerTask listenerTask;
 	
 	public static void main(String[] args) {
 		//´ò°üexe:https://blog.csdn.net/qq_40298902/article/details/114489753
+		syncTriggerTask=new SyncTriggerTask();
+		syncTriggerTask.setActive(true);
+		syncTriggerTask.start();
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		keepWatchTask=new KeepWatchTask();
 		keepWatchTask.setActive(true);
+		keepWatchTask.start();
 		
 		//sendMesBRTask=new SendMesBRTask();
 		//sendMesBRTask.setActive(true);
+		//sendMesBRTask.start();
 		
 		listenerTask=new ListenerTask();
 		listenerTask.initMainJFrame();
-
-		keepWatchTask.start();
-		//sendMesBRTask.start();
 		listenerTask.start();
 		//readIniFile();
 	}

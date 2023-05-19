@@ -16,11 +16,13 @@ import java.util.Map;
 
 public class ListenerTask extends Thread implements ActionListener {
 	
+	private SyncTriggerTask syncTriggerTask;
 	private KeepWatchTask keepWatchTask;
 //	private SendMesBRTask sendMesBRTask;
 	private JTextField ipAddressPortJTF,dbConnectJTF;
 	private JButton saveJb,startJb,stopJb;
 	private JLabel startLightJLabel,stopLightJLabel;
+	private int unCheckCountSTT;
 	private int unCheckCountKWT;
 	private int unCheckCountSMBRT;
 	
@@ -30,6 +32,9 @@ public class ListenerTask extends Thread implements ActionListener {
 		try {
 			changeLightJLabelStyle(true);
 			
+			syncTriggerTask=StartTask.syncTriggerTask;
+			System.out.println("syncTriggerTask==="+syncTriggerTask);
+			
 			keepWatchTask=StartTask.keepWatchTask;
 			System.out.println("keepWatchTask==="+keepWatchTask);
 			
@@ -37,6 +42,27 @@ public class ListenerTask extends Thread implements ActionListener {
 //			System.out.println("sendMesBRTask==="+sendMesBRTask);
 			
 			while (true) {
+				boolean isCheckedSTT = syncTriggerTask.isChecked();//获得同步触发器变量的检测标识
+				System.out.println("isCheckedSTT1==="+isCheckedSTT);
+				if(!isCheckedSTT) {//若没有被检测过，说明中间件进程一直在运行，修改检测标识为已检测
+					syncTriggerTask.setChecked(true);
+					System.out.println("isCheckedSTT2==="+isCheckedSTT);
+					unCheckCountSTT=0;//未检测次数清零
+				}
+				else {//若中间件的检测标识是已检测，说明停止运行了，就得累加未检测次数，看看是否真的停止运行
+					unCheckCountSTT++;
+				}
+				System.out.println("unCheckCountSTT==="+unCheckCountSTT);
+				
+				if(unCheckCountSTT>3) {//未检测次数累计三次以上，说明中间件真的停止运行了，需要再次启动中间件
+					System.out.println("复活.....");
+					stopDKJavaSTRunner();//先停止中间件进程
+					startDKJavaSTRunner();//再开启中间件进程，以免占用内存资源
+					unCheckCountSTT=0;//未检测次数归零
+					System.out.println("isCheckedSTT2==="+isCheckedSTT);
+				}
+				
+				
 				boolean isCheckedKWT = keepWatchTask.isChecked();//获得巡检进程的检测标识
 				System.out.println("isCheckedKWT1==="+isCheckedKWT);
 				if(!isCheckedKWT) {//若没有被检测过，说明中间件进程一直在运行，修改检测标识为已检测
@@ -109,6 +135,19 @@ public class ListenerTask extends Thread implements ActionListener {
 		keepWatchTask.stop();
 		keepWatchTask.setActive(false);
 		System.out.println("ddddddddddddddddd");
+	}
+	
+	private void startDKJavaSTRunner() {
+		syncTriggerTask=new SyncTriggerTask();
+		syncTriggerTask.setActive(true);
+		syncTriggerTask.setChecked(true);
+		syncTriggerTask.start();
+		System.out.println("isActive==="+syncTriggerTask.isActive());
+	}
+	
+	private void stopDKJavaSTRunner() {
+		syncTriggerTask.stop();
+		syncTriggerTask.setActive(false);
 	}
 	
 //	private void startDKJavaBRRunner() {

@@ -59,6 +59,43 @@ public class APIUtil {
 	}
 	
 	/**
+	 * 初始化opc服务器的触发器变量到java端,为之后的同步变量做好准备
+	 * @return
+	 */
+	public static JSONObject initJOpcTV() {
+		// TODO Auto-generated method stub
+		System.out.println("ppppppppp");
+		JSONObject resultJO = null;
+		try {
+	        resultJO = doHttp("initJOpcTV",null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			return resultJO;
+		}
+	}
+	
+	/**
+	 * 初始化opc服务器的过程变量到java端,为之后的同步变量做好准备
+	 * @return
+	 */
+	public static JSONObject initJOpcPV() {
+		// TODO Auto-generated method stub
+		JSONObject resultJO = null;
+		try {
+	        resultJO = doHttp("initJOpcPV",null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			return resultJO;
+		}
+	}
+	
+	/**
 	 * 同步触发器变量
 	 * @return
 	 */

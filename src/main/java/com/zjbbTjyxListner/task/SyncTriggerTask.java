@@ -1,9 +1,9 @@
 package com.zjbbTjyxListner.task;
 
-import com.zjbbTjyxListner.util.*;
+import com.zjbbTjyxListner.util.APIUtil;
 
-public class KeepWatchTask extends Thread {
-	
+public class SyncTriggerTask extends Thread {
+
 	/**
 	 * 是否运行
 	 */
@@ -30,19 +30,19 @@ public class KeepWatchTask extends Thread {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			APIUtil.initJOpcPV();
+			APIUtil.initJOpcTV();
 			while (true) {
 				if(!active)//不运行了，则跳出巡回检测
 					break;
 				checked=false;
 				Thread.sleep(3000);
-				APIUtil.keepWatchOnTriggerVar();
-				System.out.println("巡回变量状态........");
+				APIUtil.syncTriggerVar();
+				System.out.println("同步触发器变量........");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 }
