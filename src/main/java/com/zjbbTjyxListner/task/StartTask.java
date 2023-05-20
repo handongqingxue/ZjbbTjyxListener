@@ -19,10 +19,10 @@ public class StartTask {
 		//打包exe:https://blog.csdn.net/qq_40298902/article/details/114489753
 		/*
 		 * 这个线程是从opc服务器上同步触发器变量到数据库里的，在本地测试未连接张总那边的opc服务器，暂时屏蔽掉这块代码
+		*/
 		syncTriggerTask=new SyncTriggerTask();
 		syncTriggerTask.setActive(true);
 		syncTriggerTask.start();
-		*/
 
 		try {
 			Thread.sleep(10000);
