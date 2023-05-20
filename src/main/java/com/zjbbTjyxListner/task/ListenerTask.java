@@ -79,8 +79,8 @@ public class ListenerTask extends Thread implements ActionListener {
 				
 				if(unCheckCountKWT>3) {//未检测次数累计三次以上，说明中间件真的停止运行了，需要再次启动中间件
 					System.out.println("复活.....");
-					stopDKJavaRunner();//先停止中间件进程
-					startDKJavaRunner();//再开启中间件进程，以免占用内存资源
+					stopDKJavaKWRunner();//先停止中间件进程
+					startDKJavaKWRunner();//再开启中间件进程，以免占用内存资源
 					unCheckCountKWT=0;//未检测次数归零
 					System.out.println("isCheckedKWT2==="+isCheckedKWT);
 				}
@@ -119,26 +119,29 @@ public class ListenerTask extends Thread implements ActionListener {
 	}
 	
 	/**
-	 * 开启java中间件进程
+	 * 开启java中间件巡回变量状态进程
 	 */
-	private void startDKJavaRunner() {
+	private void startDKJavaKWRunner() {
 		keepWatchTask=new KeepWatchTask();
 		keepWatchTask.setActive(true);
 		keepWatchTask.setChecked(true);
 		keepWatchTask.start();
 		System.out.println("isActive==="+keepWatchTask.isActive());
-		System.out.println("bbbbbbbbbbbbbb");
+		System.out.println("startDKJavaKWRunner.......");
 	}
 	
 	/**
-	 * 停止java中间件进程
+	 * 停止java中间件巡回变量状态进程
 	 */
-	private void stopDKJavaRunner() {
+	private void stopDKJavaKWRunner() {
 		keepWatchTask.stop();
 		keepWatchTask.setActive(false);
-		System.out.println("ddddddddddddddddd");
+		System.out.println("stopDKJavaRunner.......");
 	}
 	
+	/**
+	 * 开启java中间件同步触发器变量进程
+	 */
 	private void startDKJavaSTRunner() {
 		syncTriggerTask=new SyncTriggerTask();
 		syncTriggerTask.setActive(true);
@@ -147,6 +150,9 @@ public class ListenerTask extends Thread implements ActionListener {
 		System.out.println("isActive==="+syncTriggerTask.isActive());
 	}
 	
+	/**
+	 * 停止java中间件同步触发器变量进程
+	 */
 	private void stopDKJavaSTRunner() {
 		syncTriggerTask.stop();
 		syncTriggerTask.setActive(false);

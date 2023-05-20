@@ -9,9 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StartTask {
-	
-	static KeepWatchTask keepWatchTask;
+
 	static SyncTriggerTask syncTriggerTask;
+	static KeepWatchTask keepWatchTask;
 //	static SendMesBRTask sendMesBRTask;
 	static ListenerTask listenerTask;
 	

@@ -2,6 +2,11 @@ package com.zjbbTjyxListner.task;
 
 import com.zjbbTjyxListner.util.APIUtil;
 
+/**
+ * 这个类是用来监听从opc端服务器上同步变量到数据库的进程
+ * @author Administrator
+ *
+ */
 public class SyncTriggerTask extends Thread {
 
 	/**
