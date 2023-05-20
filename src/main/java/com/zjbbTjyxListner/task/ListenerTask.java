@@ -32,16 +32,17 @@ public class ListenerTask extends Thread implements ActionListener {
 		try {
 			changeLightJLabelStyle(true);
 			
-			syncTriggerTask=StartTask.syncTriggerTask;
-			System.out.println("syncTriggerTask==="+syncTriggerTask);
+			//syncTriggerTask=StartTask.syncTriggerTask;
+			//System.out.println("syncTriggerTask==="+syncTriggerTask);
 			
 			keepWatchTask=StartTask.keepWatchTask;
 			System.out.println("keepWatchTask==="+keepWatchTask);
 			
-//			sendMesBRTask=StartTask.sendMesBRTask;
-//			System.out.println("sendMesBRTask==="+sendMesBRTask);
+			//sendMesBRTask=StartTask.sendMesBRTask;
+			//System.out.println("sendMesBRTask==="+sendMesBRTask);
 			
 			while (true) {
+				/*
 				boolean isCheckedSTT = syncTriggerTask.isChecked();//获得同步触发器变量的检测标识
 				System.out.println("isCheckedSTT1==="+isCheckedSTT);
 				if(!isCheckedSTT) {//若没有被检测过，说明中间件进程一直在运行，修改检测标识为已检测
@@ -61,6 +62,7 @@ public class ListenerTask extends Thread implements ActionListener {
 					unCheckCountSTT=0;//未检测次数归零
 					System.out.println("isCheckedSTT2==="+isCheckedSTT);
 				}
+				*/
 				
 				
 				boolean isCheckedKWT = keepWatchTask.isChecked();//获得巡检进程的检测标识
