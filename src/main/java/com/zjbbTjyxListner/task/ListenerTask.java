@@ -44,46 +44,56 @@ public class ListenerTask extends Thread implements ActionListener {
 			while (true) {
 				/*
 				*/
-				boolean isCheckedSTT = syncTriggerTask.isChecked();//获得同步触发器变量的检测标识
-				System.out.println("isCheckedSTT1==="+isCheckedSTT);
-				if(!isCheckedSTT) {//若没有被检测过，说明中间件进程一直在运行，修改检测标识为已检测
-					syncTriggerTask.setChecked(true);
-					System.out.println("isCheckedSTT2==="+isCheckedSTT);
-					unCheckCountSTT=0;//未检测次数清零
+				boolean isAllowCheckedSTT = syncTriggerTask.isAllowChecked();
+				System.out.println("isAllowCheckedSTT==="+isAllowCheckedSTT);
+				if(isAllowCheckedSTT) {
+					boolean isCheckedSTT = syncTriggerTask.isChecked();//获得同步触发器变量的检测标识
+					System.out.println("isCheckedSTT1==="+isCheckedSTT);
+					if(!isCheckedSTT) {//若没有被检测过，说明中间件进程一直在运行，修改检测标识为已检测
+						syncTriggerTask.setChecked(true);
+						System.out.println("isCheckedSTT2==="+isCheckedSTT);
+						unCheckCountSTT=0;//未检测次数清零
+					}
+					else {//若中间件的检测标识是已检测，说明停止运行了，就得累加未检测次数，看看是否真的停止运行
+						unCheckCountSTT++;
+					}
+					System.out.println("unCheckCountSTT==="+unCheckCountSTT);
+					
+					if(unCheckCountSTT>3) {//未检测次数累计三次以上，说明中间件真的停止运行了，需要再次启动中间件
+						System.out.println("复活.....");
+						stopDKJavaSTRunner();//先停止中间件进程
+						startDKJavaSTRunner();//再开启中间件进程，以免占用内存资源
+						unCheckCountSTT=0;//未检测次数归零
+						System.out.println("isCheckedSTT2==="+isCheckedSTT);
+					}
 				}
-				else {//若中间件的检测标识是已检测，说明停止运行了，就得累加未检测次数，看看是否真的停止运行
-					unCheckCountSTT++;
-				}
-				System.out.println("unCheckCountSTT==="+unCheckCountSTT);
 				
-				if(unCheckCountSTT>3) {//未检测次数累计三次以上，说明中间件真的停止运行了，需要再次启动中间件
-					System.out.println("复活.....");
-					stopDKJavaSTRunner();//先停止中间件进程
-					startDKJavaSTRunner();//再开启中间件进程，以免占用内存资源
-					unCheckCountSTT=0;//未检测次数归零
-					System.out.println("isCheckedSTT2==="+isCheckedSTT);
-				}
 				
-				
-				boolean isCheckedKWT = keepWatchTask.isChecked();//获得巡检进程的检测标识
-				System.out.println("isCheckedKWT1==="+isCheckedKWT);
-				if(!isCheckedKWT) {//若没有被检测过，说明中间件进程一直在运行，修改检测标识为已检测
-					keepWatchTask.setChecked(true);
-					System.out.println("isCheckedKWT2==="+isCheckedKWT);
-					unCheckCountKWT=0;//未检测次数清零
+				boolean isAllowCheckedKWT = keepWatchTask.isAllowChecked();
+				System.out.println("isAllowCheckedKWT==="+isAllowCheckedKWT);
+				if(isAllowCheckedKWT) {
+					boolean isCheckedKWT = keepWatchTask.isChecked();//获得巡检进程的检测标识
+					System.out.println("isCheckedKWT1==="+isCheckedKWT);
+					if(!isCheckedKWT) {//若没有被检测过，说明中间件进程一直在运行，修改检测标识为已检测
+						keepWatchTask.setChecked(true);
+						System.out.println("isCheckedKWT2==="+isCheckedKWT);
+						unCheckCountKWT=0;//未检测次数清零
+					}
+					else {//若中间件的检测标识是已检测，说明停止运行了，就得累加未检测次数，看看是否真的停止运行
+						unCheckCountKWT++;
+					}
+					System.out.println("unCheckCountKWT==="+unCheckCountKWT);
+					
+					if(unCheckCountKWT>3) {//未检测次数累计三次以上，说明中间件真的停止运行了，需要再次启动中间件
+						System.out.println("复活.....");
+						stopDKJavaKWRunner();//先停止中间件进程
+						startDKJavaKWRunner();//再开启中间件进程，以免占用内存资源
+						unCheckCountKWT=0;//未检测次数归零
+						System.out.println("isCheckedKWT2==="+isCheckedKWT);
+					}
 				}
-				else {//若中间件的检测标识是已检测，说明停止运行了，就得累加未检测次数，看看是否真的停止运行
-					unCheckCountKWT++;
-				}
-				System.out.println("unCheckCountKWT==="+unCheckCountKWT);
-				
-				if(unCheckCountKWT>3) {//未检测次数累计三次以上，说明中间件真的停止运行了，需要再次启动中间件
-					System.out.println("复活.....");
-					stopDKJavaKWRunner();//先停止中间件进程
-					startDKJavaKWRunner();//再开启中间件进程，以免占用内存资源
-					unCheckCountKWT=0;//未检测次数归零
-					System.out.println("isCheckedKWT2==="+isCheckedKWT);
-				}
+				/*
+				*/
 				
 
 				/*

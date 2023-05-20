@@ -1,5 +1,7 @@
 package com.zjbbTjyxListner.task;
 
+import org.json.JSONObject;
+
 import com.zjbbTjyxListner.util.*;
 
 public class KeepWatchTask extends Thread {
@@ -9,6 +11,15 @@ public class KeepWatchTask extends Thread {
 	 */
 	private boolean active;
 	private boolean checked;
+	private boolean allowChecked;
+
+	public boolean isAllowChecked() {
+		return allowChecked;
+	}
+
+	public void setAllowChecked(boolean allowChecked) {
+		this.allowChecked = allowChecked;
+	}
 
 	public boolean isActive() {
 		return active;
@@ -30,7 +41,11 @@ public class KeepWatchTask extends Thread {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			APIUtil.initJOpcPV();
+			JSONObject resultJO = APIUtil.initJOpcPV();
+			String status = resultJO.get("status").toString();
+			System.out.println("status==="+status);
+			if("ok".equals(status))
+				allowChecked=true;
 			while (true) {
 				if(!active)//不运行了，则跳出巡回检测
 					break;

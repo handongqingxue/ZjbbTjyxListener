@@ -23,17 +23,19 @@ public class StartTask {
 		syncTriggerTask=new SyncTriggerTask();
 		syncTriggerTask.setActive(true);
 		syncTriggerTask.start();
-
+		
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(30000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		keepWatchTask=new KeepWatchTask();
 		keepWatchTask.setActive(true);
 		keepWatchTask.start();
+		/*
+		*/
 		
 		//sendMesBRTask=new SendMesBRTask();
 		//sendMesBRTask.setActive(true);

@@ -1,5 +1,7 @@
 package com.zjbbTjyxListner.task;
 
+import org.json.JSONObject;
+
 import com.zjbbTjyxListner.util.APIUtil;
 
 /**
@@ -14,6 +16,15 @@ public class SyncTriggerTask extends Thread {
 	 */
 	private boolean active;
 	private boolean checked;
+	private boolean allowChecked;
+
+	public boolean isAllowChecked() {
+		return allowChecked;
+	}
+
+	public void setAllowChecked(boolean allowChecked) {
+		this.allowChecked = allowChecked;
+	}
 
 	public boolean isActive() {
 		return active;
@@ -35,7 +46,12 @@ public class SyncTriggerTask extends Thread {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			APIUtil.initJOpcTV();
+			System.out.println("我都不惜说你了.........");
+			JSONObject resultJO = APIUtil.initJOpcTV();
+			String status = resultJO.get("status").toString();
+			System.out.println("status==="+status);
+			if("ok".equals(status))
+				allowChecked=true;
 			while (true) {
 				if(!active)//不运行了，则跳出巡回检测
 					break;
