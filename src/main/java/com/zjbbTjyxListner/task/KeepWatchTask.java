@@ -1,5 +1,11 @@
 package com.zjbbTjyxListner.task;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 
 import com.zjbbTjyxListner.util.*;
@@ -51,8 +57,12 @@ public class KeepWatchTask extends Thread {
 					break;
 				checked=false;
 				Thread.sleep(3000);
-				APIUtil.keepWatchOnTriggerVar();
-				System.out.println("巡回变量状态........");
+				JSONObject kwotvJO = APIUtil.keepWatchOnTriggerVar();
+				System.out.println("巡回变量状态........"+kwotvJO.getString("message"));
+				if("no".equals(kwotvJO.getString("message"))) {//https://blog.csdn.net/qq_41548233/article/details/116566144
+					runBatFile("cmd /c D:/tomcat8.5.57/bin/shutdown.bat");
+					runBatFile("cmd /c D:/tomcat8.5.57/bin/startup.bat");
+				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -60,4 +70,26 @@ public class KeepWatchTask extends Thread {
 		}
 	}
 	
+	public void runBatFile(String fileUrl) {
+		StringBuilder sb = new StringBuilder();
+	    try {
+	        Process child = Runtime.getRuntime().exec(fileUrl);
+	        InputStream in = child.getInputStream();
+	        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+	        String line;
+	        while ((line = bufferedReader.readLine()) != null) {
+	        	System.out.println(line);
+	            sb.append(line + "\n");
+	        }
+	        in.close();
+	        try {
+	            child.waitFor();
+	            System.out.println("call cmd process finished");
+	        } catch (InterruptedException e) {
+	        	System.out.println("faild to call cmd process cmd because " + e.getMessage());
+	        }
+	    } catch (IOException e) {
+	    	System.out.println(e.getMessage());
+	    }
+	}
 }

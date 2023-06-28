@@ -64,7 +64,6 @@ public class APIUtil {
 	 */
 	public static JSONObject initJOpcTV() {
 		// TODO Auto-generated method stub
-		System.out.println("ppppppppp");
 		JSONObject resultJO = null;
 		try {
 	        resultJO = doHttp("initJOpcTV",null);
@@ -125,6 +124,9 @@ public class APIUtil {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			if("Connection refused: connect".equals(e.getMessage())) {
+				resultJO.put("message", "no");
+			}
 		}
 		finally {
 			return resultJO;
